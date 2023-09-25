@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.chaquo.python'
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.myproject"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        sourceSets {
+            main {
+                python {
+                    srcDirs = ["src/main/python"]
+                }
+            }
+        }
+
+        python {
+            buildPython "C:/Users/NEERAJ KANSAL/AppData/Local/Programs/Python/Python38-32/python.exe"
+            buildPython "py -3.8"
+            // AndroidUI demo
+            pip {
+                install "Pygments==2.2.0"
+                install "opencv-python<=4.2.0"//3.4.2.16
+                install "setuptools==40.4.3"
+                install "numpy==1.17.4"
+                install "pillow<=6.2.1"//5.2.0
+            }
+            pyc {
+                src false
+            }
+        }
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+
+        // Chaquopy generates extra internal-use constructors on static proxy classes.
+        lintOptions {
+            disable "ValidFragment"
+        }
+
+        // Remove other languages imported from Android support libraries..
+        resConfigs "en"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        compileOptions {
+            sourceCompatibility = 1.8
+            targetCompatibility = 1.8
+        }
+    }
+
+    buildToolsVersion = '28.0.3'
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+
+}
